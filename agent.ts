@@ -83,7 +83,8 @@ const COMMANDS: Record<string, (file: string) => string> = {
     fix: (file) => `git diff -- ${file}   # then fix the regression it shows`,
     rerun: (file) =>
         `npx vitest run ${file} --repeat-each 2   # same failure twice?`,
-    repair: (file) => `npm ci && npx vitest run ${file}`,
+    repair: () =>
+        `npm ci && npm test   # the environment is at fault, so restore it before judging the suite`,
     "update-test": (file) =>
         `sed -n '1,40p' ${file}   # confirm the new behaviour is intended, then update the assertion`,
     "collect-evidence": (file) =>
@@ -213,7 +214,7 @@ function instructions(report: string, decisions: Decisions): string {
         `Failing file: ${file}`,
         `Next command: ${command}`,
         "",
-        "Then write, in at most 140 words:",
+        "Then write, in at most 140 words, all four numbered sections in this order:",
         "1. **Verdict** - one sentence using Jev's wording, quoting the probability from the line above.",
         "2. **Why** - at most three bullets, each quoting or naming only something that literally appears in the report.",
         "3. **Run this** - the command, on its own code line.",

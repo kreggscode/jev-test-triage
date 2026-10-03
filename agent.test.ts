@@ -123,7 +123,7 @@ test("repairs the environment when Jev blames the setup", async () => {
     });
 
     assert.match(instructions, /action=repair \(now\)/);
-    assert.match(instructions, /npm ci && npx vitest run/);
+    assert.match(instructions, /npm ci && npm test/);
 });
 
 test("contradictory answers fall back to gathering evidence", async () => {
